@@ -33,6 +33,15 @@ public class InstructorsController {
     }
     @GetMapping("/{instructor-id}")
     public ResponseEntity<ApiResponse<Instructor>> getInstructorById(@PathVariable("instructor-id") Integer id) {
+        Instructor instructor = instructorsService.selectInstructorById(id);
+        if (instructor == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.<Instructor>builder()
+                            .message("Course with ID " + id + " not found")
+                            .payload(null)
+                            .status(HttpStatus.NOT_FOUND)
+                            .build());
+        }
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Instructor>builder()
                         .message(MessageConstant.Instructor.GET_INSTRUCTOR_BY_ID_SUCCESSFULLY)
@@ -44,6 +53,15 @@ public class InstructorsController {
 
     @PutMapping("/{instructor-id}")
     public ResponseEntity<ApiResponse<Instructor>> updateInstructor(@PathVariable("instructor-id") Integer id, @RequestBody InstructorRequest instructorRequest) {
+        Instructor instructor = instructorsService.selectInstructorById(id);
+        if (instructor == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.<Instructor>builder()
+                            .message("Course with ID " + id + " not found")
+                            .payload(null)
+                            .status(HttpStatus.NOT_FOUND)
+                            .build());
+        }
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Instructor>builder()
                         .message(MessageConstant.Instructor.UPDATED_SUCCESSFULLY)
@@ -65,6 +83,15 @@ public class InstructorsController {
     }
     @DeleteMapping("/{instructor-id}")
     public ResponseEntity<ApiResponse<Instructor>> deleteInstructor(@PathVariable("instructor-id") Integer id) {
+        Instructor instructor = instructorsService.selectInstructorById(id);
+        if (instructor == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.<Instructor>builder()
+                            .message("Course with ID " + id + " not found")
+                            .payload(null)
+                            .status(HttpStatus.NOT_FOUND)
+                            .build());
+        }
         instructorsService.deleteInstructor(id);
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Instructor>builder()

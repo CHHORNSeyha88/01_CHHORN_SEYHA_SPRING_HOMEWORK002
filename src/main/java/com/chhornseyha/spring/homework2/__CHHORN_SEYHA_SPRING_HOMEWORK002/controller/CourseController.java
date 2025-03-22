@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -35,13 +36,21 @@ public class CourseController {
     }
     @GetMapping("/{course-id}")
     public ResponseEntity<ApiResponse<Course>> getCourseById(@PathVariable("course-id") int id) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                ApiResponse.<Course>builder()
+        Course course = courseService.findById(id);
+        if (course == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.<Course>builder()
+                            .message("Course with ID " + id + " not found")
+                            .payload(null)
+                            .status(HttpStatus.NOT_FOUND)
+                            .build());
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<Course>builder()
                         .message(MessageConstant.Course.GET_COURSE_BY_ID_SUCCESSFULLY)
-                        .payload(courseService.findById(id))
+                        .payload(course)
                         .status(HttpStatus.OK)
-                        .build()
-        );
+                        .build());
     }
     @PostMapping
     public ResponseEntity<ApiResponse<Course>> addCourse(@RequestBody CourseRequest courseRequest) {
@@ -56,6 +65,15 @@ public class CourseController {
 
     @DeleteMapping("/{course-id}")
     public ResponseEntity<ApiResponse<Course>> deleteCourse(@PathVariable("course-id") int id) {
+        Course course = courseService.findById(id);
+        if (course == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.<Course>builder()
+                            .message("Course with ID " + id + " not found")
+                            .payload(null)
+                            .status(HttpStatus.NOT_FOUND)
+                            .build());
+        }
         courseService.deleteCourse(id);
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Course>builder()
@@ -67,6 +85,15 @@ public class CourseController {
     }
     @PutMapping("/{course-id}")
     public ResponseEntity<ApiResponse<Course>> updateCourse(@PathVariable("course-id") int id, @RequestBody CourseUpdateRequest courseUpdateRequest) {
+        Course course = courseService.findById(id);
+        if (course == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.<Course>builder()
+                            .message("Course with ID " + id + " not found")
+                            .payload(null)
+                            .status(HttpStatus.NOT_FOUND)
+                            .build());
+        }
        return ResponseEntity.status(HttpStatus.OK).body(
                ApiResponse.<Course>builder()
                        .message(MessageConstant.Course.UPDATED_SUCCESSFULLY)

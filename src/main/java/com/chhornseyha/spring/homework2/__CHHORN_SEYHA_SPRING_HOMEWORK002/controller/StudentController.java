@@ -3,6 +3,7 @@ package com.chhornseyha.spring.homework2.__CHHORN_SEYHA_SPRING_HOMEWORK002.contr
 import com.chhornseyha.spring.homework2.__CHHORN_SEYHA_SPRING_HOMEWORK002.constant.MessageConstant;
 import com.chhornseyha.spring.homework2.__CHHORN_SEYHA_SPRING_HOMEWORK002.constant.httpresponse.ApiResponse;
 import com.chhornseyha.spring.homework2.__CHHORN_SEYHA_SPRING_HOMEWORK002.domain.dto.student.StudentRequest;
+import com.chhornseyha.spring.homework2.__CHHORN_SEYHA_SPRING_HOMEWORK002.domain.model.Instructor;
 import com.chhornseyha.spring.homework2.__CHHORN_SEYHA_SPRING_HOMEWORK002.domain.model.Student;
 import com.chhornseyha.spring.homework2.__CHHORN_SEYHA_SPRING_HOMEWORK002.service.serviceImpl.StudentServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +33,15 @@ public class StudentController {
     }
     @PutMapping("/{student-id}")
     public ResponseEntity<ApiResponse<Student>> updateStudent(@RequestBody StudentRequest studentRequest , @PathVariable("student-id") int id) {
+        Student student = studentServiceImpl.getStudentById(id);
+        if (student == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.<Student>builder()
+                            .message("Course with ID " + id + " not found")
+                            .payload(null)
+                            .status(HttpStatus.NOT_FOUND)
+                            .build());
+        }
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Student>builder()
                         .message(MessageConstant.Student.UPDATED_SUCCESSFULLY)
@@ -57,6 +67,16 @@ public class StudentController {
     }
     @GetMapping("/{student-id}")
     public ResponseEntity<ApiResponse<Student>> getStudentById(@PathVariable("student-id") Integer id) {
+        Student student = studentServiceImpl.getStudentById(id);
+        if (student == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.<Student>builder()
+                            .message("Course with ID " + id + " not found")
+                            .payload(null)
+                            .status(HttpStatus.NOT_FOUND)
+                            .build());
+        }
+
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Student>builder()
                         .message(MessageConstant.Student.GET_STUDENT_BY_ID_SUCCESSFULLY)
@@ -68,6 +88,15 @@ public class StudentController {
     }
     @DeleteMapping("/{student-id}")
     public ResponseEntity<ApiResponse<Student>> deleteStudent(@PathVariable("student-id") Integer id) {
+        Student student = studentServiceImpl.getStudentById(id);
+        if (student == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.<Student>builder()
+                            .message("Course with ID " + id + " not found")
+                            .payload(null)
+                            .status(HttpStatus.NOT_FOUND)
+                            .build());
+        }
         studentServiceImpl.deleteStudentById(id);
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Student>builder()
