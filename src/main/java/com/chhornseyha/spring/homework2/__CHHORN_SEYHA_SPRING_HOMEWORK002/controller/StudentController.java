@@ -5,6 +5,7 @@ import com.chhornseyha.spring.homework2.__CHHORN_SEYHA_SPRING_HOMEWORK002.consta
 import com.chhornseyha.spring.homework2.__CHHORN_SEYHA_SPRING_HOMEWORK002.domain.dto.student.StudentRequest;
 import com.chhornseyha.spring.homework2.__CHHORN_SEYHA_SPRING_HOMEWORK002.domain.model.Student;
 import com.chhornseyha.spring.homework2.__CHHORN_SEYHA_SPRING_HOMEWORK002.service.serviceImpl.StudentServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,6 @@ import java.util.List;
 @RequestMapping("/api/v1/students")
 public class StudentController {
     private final StudentServiceImpl studentServiceImpl;
-
     @PostMapping
     public ResponseEntity<ApiResponse<Student>> addStudent(@RequestBody StudentRequest studentRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -30,8 +30,8 @@ public class StudentController {
                         .build()
         );
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<Student>> updateStudent(@RequestBody StudentRequest studentRequest , @PathVariable int id) {
+    @PutMapping("/{student-id}")
+    public ResponseEntity<ApiResponse<Student>> updateStudent(@RequestBody StudentRequest studentRequest , @PathVariable("student-id") int id) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Student>builder()
                         .message(MessageConstant.Student.UPDATED_SUCCESSFULLY)
@@ -55,8 +55,8 @@ public class StudentController {
                         .build()
         );
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Student>> getStudentById(@PathVariable Integer id) {
+    @GetMapping("/{student-id}")
+    public ResponseEntity<ApiResponse<Student>> getStudentById(@PathVariable("student-id") Integer id) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Student>builder()
                         .message(MessageConstant.Student.GET_STUDENT_BY_ID_SUCCESSFULLY)
@@ -66,8 +66,8 @@ public class StudentController {
 
         );
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Student>> deleteStudent(@PathVariable Integer id) {
+    @DeleteMapping("/{student-id}")
+    public ResponseEntity<ApiResponse<Student>> deleteStudent(@PathVariable("student-id") Integer id) {
         studentServiceImpl.deleteStudentById(id);
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Student>builder()

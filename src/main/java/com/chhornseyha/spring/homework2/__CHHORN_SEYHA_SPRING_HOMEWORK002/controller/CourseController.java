@@ -33,8 +33,8 @@ public class CourseController {
                         .build()
         ).getBody();
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Course>> getCourseById(@PathVariable int id) {
+    @GetMapping("/{course-id}")
+    public ResponseEntity<ApiResponse<Course>> getCourseById(@PathVariable("course-id") int id) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Course>builder()
                         .message(MessageConstant.Course.GET_COURSE_BY_ID_SUCCESSFULLY)
@@ -54,8 +54,8 @@ public class CourseController {
         );
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Course>> deleteCourse(@PathVariable int id) {
+    @DeleteMapping("/{course-id}")
+    public ResponseEntity<ApiResponse<Course>> deleteCourse(@PathVariable("course-id") int id) {
         courseService.deleteCourse(id);
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Course>builder()
@@ -65,8 +65,8 @@ public class CourseController {
                         .build()
         );
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<Course>> updateCourse(@PathVariable int id, @RequestBody CourseUpdateRequest courseUpdateRequest) {
+    @PutMapping("/{course-id}")
+    public ResponseEntity<ApiResponse<Course>> updateCourse(@PathVariable("course-id") int id, @RequestBody CourseUpdateRequest courseUpdateRequest) {
        return ResponseEntity.status(HttpStatus.OK).body(
                ApiResponse.<Course>builder()
                        .message(MessageConstant.Course.UPDATED_SUCCESSFULLY)

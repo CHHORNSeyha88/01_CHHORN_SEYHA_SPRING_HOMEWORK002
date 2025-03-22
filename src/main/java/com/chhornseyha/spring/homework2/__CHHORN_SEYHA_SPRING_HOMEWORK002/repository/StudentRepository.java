@@ -55,7 +55,7 @@ select * from student where student_id = #{studentId}
 """)
     void deleteStudentById(int studentId);
 
-    //    --create new
+    // --create new
 
     @Select("""
 insert into student(student_name, email, phone_number)

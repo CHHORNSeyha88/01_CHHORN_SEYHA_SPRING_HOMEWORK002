@@ -20,6 +20,7 @@ public class InstructorsController {
     private final InstructorsServiceImpl instructorsService;
 
     @PostMapping
+
     public ResponseEntity<ApiResponse<Instructor>> addInstructor(@RequestBody InstructorRequest instructorsRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 ApiResponse.<Instructor>builder()
@@ -30,8 +31,8 @@ public class InstructorsController {
         );
 
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Instructor>> getInstructorById(@PathVariable Integer id) {
+    @GetMapping("/{instructor-id}")
+    public ResponseEntity<ApiResponse<Instructor>> getInstructorById(@PathVariable("instructor-id") Integer id) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Instructor>builder()
                         .message(MessageConstant.Instructor.GET_INSTRUCTOR_BY_ID_SUCCESSFULLY)
@@ -41,8 +42,8 @@ public class InstructorsController {
         );
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<Instructor>> updateInstructor(@PathVariable Integer id, @RequestBody InstructorRequest instructorRequest) {
+    @PutMapping("/{instructor-id}")
+    public ResponseEntity<ApiResponse<Instructor>> updateInstructor(@PathVariable("instructor-id") Integer id, @RequestBody InstructorRequest instructorRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Instructor>builder()
                         .message(MessageConstant.Instructor.UPDATED_SUCCESSFULLY)
@@ -62,8 +63,8 @@ public class InstructorsController {
                         .build()
         ).getBody();
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Instructor>> deleteInstructor(@PathVariable Integer id) {
+    @DeleteMapping("/{instructor-id}")
+    public ResponseEntity<ApiResponse<Instructor>> deleteInstructor(@PathVariable("instructor-id") Integer id) {
         instructorsService.deleteInstructor(id);
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Instructor>builder()

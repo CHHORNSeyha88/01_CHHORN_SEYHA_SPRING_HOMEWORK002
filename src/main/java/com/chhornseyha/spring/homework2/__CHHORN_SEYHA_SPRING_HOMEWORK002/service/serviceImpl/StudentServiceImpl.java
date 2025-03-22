@@ -45,6 +45,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student updateStudentById(int studentId, StudentRequest studentRequest) {
         Integer updateStudentId = studentRepository.updateStudent(studentRequest, studentId);
+
         for(Integer coursesId : studentRequest.getCoursesId())
         {
             studentRepository.insertStudentCourse(updateStudentId, coursesId);
