@@ -37,8 +37,6 @@ public interface CourseRepository {
 })
 List<Course> getAllCourses(Integer size,Integer page);
 
-
-
     //-- Get By Id
     @Select("""
 select * from course where course_id = #{courseId};
@@ -67,7 +65,7 @@ DELETE from course where course_id = #{courseId};
 """)
     int updateCourse(@Param("courseRq") CourseUpdateRequest courseUpdateRequest, int courseId);
 
-//    select course by student
+//    select course by student id for handle to Student
 @Select("""
     SELECT c.* 
     FROM course c
@@ -83,6 +81,7 @@ DELETE from course where course_id = #{courseId};
 })
 List<Course> getCoursesByStudentId(@Param("studentId") Integer studentId);
 
+    // -- handle for getCoursesByStudentId
     @Select("SELECT * FROM instructor WHERE instructor_id = #{instructorId}")
             @Result(property = "instructorId", column = "instructor_id")
             @Result(property = "instructorName", column = "instructor_name")

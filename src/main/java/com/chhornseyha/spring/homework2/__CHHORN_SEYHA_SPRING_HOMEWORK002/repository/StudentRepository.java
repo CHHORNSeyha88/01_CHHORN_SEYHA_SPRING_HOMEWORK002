@@ -34,14 +34,6 @@ select * from student where student_id = #{studentId}
     Student findStudentById(int studentId);
 
 
-    //-- Insert Student
-    @Insert("""
-        INSERT INTO student (student_name, email, phone_number)
-        VALUES (#{student.studentName}, #{student.email}, #{student.phoneNumber})
-        RETURNING student_id;
-    """)
-    Integer insertStudent(@Param("student") StudentRequest studentRequest);
-
     //-- Insert Single Student-Course Relationship
     @Insert("""
         INSERT INTO student_course (student_id, course_id)
