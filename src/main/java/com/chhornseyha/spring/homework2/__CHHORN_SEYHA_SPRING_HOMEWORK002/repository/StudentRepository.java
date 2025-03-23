@@ -67,4 +67,15 @@ returning student_id;
 """)
     Integer updateStudent(@Param("student") StudentRequest studentRequest, Integer studentId);
 
+
+//-- Delete All Courses for a Student
+@Delete("""
+        DELETE FROM student_course
+        WHERE student_id = #{studentId};
+    """)
+void deleteAllStudentCourses(@Param("studentId") Integer studentId);
+
+
+
+
 }

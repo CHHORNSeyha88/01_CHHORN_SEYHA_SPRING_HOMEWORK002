@@ -7,6 +7,7 @@ import com.chhornseyha.spring.homework2.__CHHORN_SEYHA_SPRING_HOMEWORK002.servic
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,12 +45,21 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student updateStudentById(int studentId, StudentRequest studentRequest) {
-        Integer updateStudentId = studentRepository.updateStudent(studentRequest, studentId);
-
-        for(Integer coursesId : studentRequest.getCoursesId())
-        {
-            studentRepository.insertStudentCourse(updateStudentId, coursesId);
+//        validation
+        Integer updateRowsValidation = studentRepository.updateStudent(studentRequest, studentId);
+        if(updateRowsValidation == 0){
+            throw new RuntimeException("Student with ID " + studentId + " not found");
         }
+        // handle new course
+        List<Integer> newCourseUpdating = studentRequest.getCoursesId();
+        if(newCourseUpdating != null){
+            studentRepository.deleteAllStudentCourses(studentId);
+        }
+//        បញ្ចូលថែមថ្មី
+        for(Integer coursesId : newCourseUpdating){
+            studentRepository.insertStudentCourse(studentId, coursesId);
+        }
+
         return studentRepository.findStudentById(studentId);
     }
 
